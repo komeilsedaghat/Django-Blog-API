@@ -30,3 +30,8 @@ class UpdateArticleView(generics.UpdateAPIView):
     queryset = ArticleModel.objects.filter(status=True)
     serializer_class = ArticleSerializer
     permission_classes = (IsAuthenticated,)
+
+class DeleteArticleView(generics.DestroyAPIView):
+    lookup_field = 'slug'
+    queryset = ArticleModel.objects.filter(status=True)
+    serializer_class = ArticleSerializer
