@@ -32,6 +32,13 @@
 <br>PUT - Update Article
 - `api/articles/add-article/`
 <br>POST - Add Article
+- `api/articles/admin_panel/`
+<br>POST - Add User
+<br>GET - List User
+- `api/articles/admin_panel/<int:pk>/`
+<br>DELETE - Delete User
+<br>PUT - Update User
+
 
 
 ## Setup

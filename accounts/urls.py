@@ -16,4 +16,8 @@ urlpatterns = [
     path('password_change/',views.ChangePasswordView.as_view(),name='change-password'),
     path('password_reset/', include('django_rest_passwordreset.urls',)),
 
+    #admin panel
+    path('admin_panel/',views.AdminPanelView.as_view(),name='admin-panel'),
+    path('admin_panel/<int:pk>/',views.AdminPanelView.as_view(),name='admin-panel'),
+
 ]

@@ -5,12 +5,14 @@ from django.contrib.auth import authenticate,login
 from rest_framework.response import Response
 from rest_framework import status
 from .models import User
-from .serializers import UserRegisterSerializer,ChangePasswordSerializer
+from .serializers import UserRegisterSerializer,ChangePasswordSerializer,AdminPanelSerializer
 from rest_framework.permissions import IsAuthenticated
 from django.dispatch import receiver
 from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
 from django.core.mail import send_mail  
+from .permissions import IsSuperUser
+from django.http import Http404
 # Create your views here.
 
 class RegisterUserView(generics.CreateAPIView):
@@ -52,3 +54,38 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         # to:
         [reset_password_token.user.email]
     )
+
+
+
+class AdminPanelView(views.APIView):
+    permission_classes = (IsSuperUser,)
+
+    def get_object(self,pk):
+        try:
+            return User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            raise Http404
+
+    def get(self, request):
+        user = User.objects.all()
+        serializer = AdminPanelSerializer(user, many=True)
+        return Response(serializer.data)
+
+    def post(self,request):
+        serializer = AdminPanelSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data)
+
+    def delete(self,request,pk):
+        user = self.get_object(pk)
+        user.delete()
+        return Response(status = status.HTTP_204_NO_CONTENT)
+
+    def put(self,request,pk):
+        user = self.get_object(pk)
+        serializer = AdminPanelSerializer(user,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
