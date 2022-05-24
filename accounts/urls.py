@@ -3,11 +3,17 @@ from . import views
 from rest_framework.authtoken.views import obtain_auth_token 
 from dj_rest_auth.views import LogoutView,LoginView
 from django_rest_passwordreset import urls
+from rest_framework.authtoken.views import obtain_auth_token
 
 
 app_name = 'accounts'
 
 urlpatterns = [
+    #Create And Revoke Token
+    path('create-token/',obtain_auth_token,name='token'),
+    path('revoke-token/',views.RevokeTokenView.as_view(),name='revoke'),
+
+
     path('login/',LoginView.as_view(),name='login'),
     path('register/', views.RegisterUserView.as_view(),name='register'),
     path('logout/',LogoutView.as_view(),name='logout'),

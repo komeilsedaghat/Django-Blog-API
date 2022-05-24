@@ -6,6 +6,9 @@
 - CRUD Articles
 - Login,Register And Logout View
 - Password Change And Reset
+- Custom Permission
+- Admin Panel(For CRUD Users)
+- Custom Throttle And Set in Views
 
 
 
@@ -22,6 +25,11 @@
 <br>POST - For Change Password(**Old password**,**New Password**)
 - `/api/accounts/password_reset/`
 <br>POST - Reset Password (**Email** , form data)
+- `/api/accounts/create-token/`
+<br>POST - Create Token And Login (**username** ,**password** form data)
+- `/api/accounts/revoke_token/`
+<br>DELETE - Revoke Token (**Token** )
+
 - `/api/articles/`
 <br>GET - Retrive all Articles
 - `api/articles/detail/<slug:slug>/`
@@ -63,7 +71,7 @@ Create a superuser for admin privilages
 ```bash
 python3 manage.py createsuperuser
 ```
-Now set the variables `DJANGO_SECRET_KEY` and `DEBUG_VALUE` from `BlogApi/.env-sample` either as environment variables or hard code them into the file itself.
+Now set the variables `SECRET_KEY` from `BlogApi/.env-sample` either as environment variables or hard code them into the file itself.
 <br>Start the server
 ```bash
 python3 manage.py runserver

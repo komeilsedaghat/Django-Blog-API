@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import User
 from .serializers import UserRegisterSerializer,ChangePasswordSerializer,AdminPanelSerializer
+from rest_framework.throttling import UserRateThrottle
+from .throttle import CustomUserRegiserThrottle
 from rest_framework.permissions import IsAuthenticated
 from django.dispatch import receiver
 from django.urls import reverse
@@ -13,14 +15,17 @@ from django_rest_passwordreset.signals import reset_password_token_created
 from django.core.mail import send_mail  
 from .permissions import IsSuperUser
 from django.http import Http404
+
 # Create your views here.
 
 class RegisterUserView(generics.CreateAPIView):
+    throttle_classes = (CustomUserRegiserThrottle,)
     serializer_class = UserRegisterSerializer
 
 
 #change Password
 class ChangePasswordView(generics.UpdateAPIView):
+    throttle_classes = (UserRateThrottle,)
     serializer_class = ChangePasswordSerializer
     permission_classes = (IsAuthenticated,)
     def get_object(self):
@@ -89,3 +94,10 @@ class AdminPanelView(views.APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+class RevokeTokenView(views.APIView):
+    permission_classes = (IsAuthenticated,)
+    def delete(self,request):
+        request.auth.delete()
+        return Response({'msg':'Your Toekn Revoked!'})
