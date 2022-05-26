@@ -9,8 +9,8 @@
 - Custom Permission
 - Admin Panel(For CRUD Users)
 - Custom Throttle And Set in Views
-
-
+- Add Schema 
+- Change Token Authentication To JWT Authentication
 
 ## API Endpoints
 
@@ -29,6 +29,11 @@
 <br>POST - Create Token And Login (**username** ,**password** form data)
 - `/api/accounts/revoke_token/`
 <br>DELETE - Revoke Token (**Token** )
+- `/api/accounts/token/`
+<br>POST - get access and refresh token (**username**,**password** )
+- `/api/accounts/token/refresh/`
+<br>POST - get new access token (**refresh token** )
+
 
 - `/api/articles/`
 <br>GET - Retrive all Articles
@@ -46,7 +51,8 @@
 - `api/articles/admin_panel/<int:pk>/`
 <br>DELETE - Delete User
 <br>PUT - Update User
-
+- `/swagger/`
+<br>GET - Schema
 
 
 ## Setup
@@ -54,7 +60,7 @@
 Clone the repo:
 ```bash
 git clone
-https://github.com/komeilsedaghat/Blog-API.git
+https://github.com/komeilsedaghat/Django-Blog-API.git
 ```
 Now cd into cloned repo, create a virtualenv and pip install the requirements
 ```bash
