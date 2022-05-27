@@ -9,8 +9,6 @@ app_name = 'home'
 
 urlpatterns = [
 
-
-
     path('articles/',views.ListArticleView.as_view(),name='home'),
     path('articles/detail/<slug:slug>/',views.DetailArticleView.as_view(),name='detail'),
     path('articles/delete/<slug:slug>/',views.DeleteArticleView.as_view(),name='delete'),

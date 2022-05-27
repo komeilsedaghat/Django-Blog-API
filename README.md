@@ -11,6 +11,7 @@
 - Custom Throttle And Set in Views
 - Add Schema 
 - Change Token Authentication To JWT Authentication
+- Pagination(Custom Pagination)
 
 ## API Endpoints
 

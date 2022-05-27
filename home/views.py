@@ -4,7 +4,7 @@ from rest_framework import generics
 from .serializers import ArticleSerializer,AddArticleSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.throttling import UserRateThrottle
-
+from .pagination import ListArticlePagination
 
 # Create your views here.
 
@@ -13,6 +13,7 @@ class ListArticleView(generics.ListAPIView):
     queryset = ArticleModel.objects.filter(status=True)
     serializer_class = ArticleSerializer
     permission_classes = (IsAuthenticated,)
+    pagination_class = ListArticlePagination
 
 class DetailArticleView(generics.RetrieveAPIView):
     lookup_field = 'slug'

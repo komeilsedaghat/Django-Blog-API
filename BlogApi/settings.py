@@ -151,6 +151,8 @@ REST_FRAMEWORK = {
         'anon': '20/day',
         'user': '50/day'
     },
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10
 }
 
 

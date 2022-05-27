@@ -14,6 +14,7 @@ from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
 from django.core.mail import send_mail  
 from .permissions import IsSuperUser
+from rest_framework.pagination import LimitOffsetPagination
 from django.http import Http404
 
 # Create your views here.
@@ -62,7 +63,8 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 
 
 
-class AdminPanelView(views.APIView):
+
+class AdminPanelView(views.APIView,LimitOffsetPagination):
     permission_classes = (IsSuperUser,)
 
     def get_object(self,pk):
@@ -74,7 +76,11 @@ class AdminPanelView(views.APIView):
     def get(self, request):
         user = User.objects.all()
         serializer = AdminPanelSerializer(user, many=True)
-        return Response(serializer.data)
+
+        results = self.paginate_queryset(user, request, view=self)
+        serializer = AdminPanelSerializer(results, many=True)
+        return self.get_paginated_response(serializer.data)
+
 
     def post(self,request):
         serializer = AdminPanelSerializer(data=request.data)
