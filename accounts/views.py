@@ -16,6 +16,7 @@ from django.core.mail import send_mail
 from .permissions import IsSuperUser
 from rest_framework.pagination import LimitOffsetPagination
 from django.http import Http404
+from rest_framework.parsers import JSONParser
 
 # Create your views here.
 
@@ -65,6 +66,7 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
 
 
 class AdminPanelView(views.APIView,LimitOffsetPagination):
+    parser_classes = (JSONParser,)
     permission_classes = (IsSuperUser,)
 
     def get_object(self,pk):

@@ -12,7 +12,7 @@
 - Add Schema 
 - Change Token Authentication To JWT Authentication
 - Pagination(Custom Pagination)
-
+- Set Parser Class(JSONParser)
 ## API Endpoints
 
 

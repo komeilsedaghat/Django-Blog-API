@@ -5,7 +5,7 @@ from .serializers import ArticleSerializer,AddArticleSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.throttling import UserRateThrottle
 from .pagination import ListArticlePagination
-
+from rest_framework.parsers import JSONParser
 # Create your views here.
 
 
@@ -15,6 +15,7 @@ class ListArticleView(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
     pagination_class = ListArticlePagination
 
+
 class DetailArticleView(generics.RetrieveAPIView):
     lookup_field = 'slug'
     queryset = ArticleModel.objects.filter(status=True)
@@ -23,12 +24,14 @@ class DetailArticleView(generics.RetrieveAPIView):
 
     
 class AddArticleView(generics.CreateAPIView):
+    parser_classes = (JSONParser,)
     throttle_classes = (UserRateThrottle,)
     serializer_class = AddArticleSerializer
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
     
 
 class UpdateArticleView(generics.UpdateAPIView):
+    parser_classes = (JSONParser,)
     throttle_classes = (UserRateThrottle,)
     lookup_field = 'slug'
     queryset = ArticleModel.objects.filter(status=True)
